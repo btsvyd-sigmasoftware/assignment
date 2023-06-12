@@ -18,7 +18,7 @@ final class CreateGarageTable extends AbstractMigration
             ->addColumn('name','string', ['length' => 75])
             ->addColumn('hourly_price','decimal', ['length' => 10, 'decimals' => 2])
             ->addColumn('email','string', ['length' => 50])
-            ->addColumn('coordinates','string', ['length' => 75])
+            ->addColumn('coordinates','point')
 
             ->addColumn('currency_id', 'integer')
             ->addIndex('currency_id')

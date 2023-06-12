@@ -74,7 +74,7 @@ The expected output is an array of JSON objects containing garage related data:
 }
 ```
 
-There is also a possibility to add a filter to get more specified data. Currently, 3 filters available:
+There is also a possibility to add a filter to get more specified data. Currently, 4 filters available:
 
 country:
 
@@ -84,9 +84,13 @@ owner:
 
 `GET /api/garage?owner=Parkkitalo OY`
 
-location:
+latitude:
 
-`GET /api/garage?location=60.162562 24.939453`
+`GET /api/garage?latitude=60.162562`
+
+longitude:
+
+`GET /api/garage?longitude=24.939453`
 
 ### Useful commands
 - To run phpunit testing: `make phpunit`
