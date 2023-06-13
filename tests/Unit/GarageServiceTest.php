@@ -41,7 +41,8 @@ class GarageServiceTest extends TestCase
         $garageModelMock->name = 'test name';
         $garageModelMock->hourly_price = '2';
         $garageModelMock->email = 'testemail@gmail.com';
-        $garageModelMock->coordinates = '60.162562 24.939453';
+        $garageModelMock->latitude = '60.162562';
+        $garageModelMock->longitude = '24.939453';
         $garageModelMock->currency = $currencyModelMock;
         $garageModelMock->country = $countryModelMock;
         $garageModelMock->owner = $companyModelMock;
@@ -54,7 +55,7 @@ class GarageServiceTest extends TestCase
             'hourly_price' => $garageModelMock->hourly_price,
             'currency' => $garageModelMock->currency->symbol,
             'contact_email' => $garageModelMock->email,
-            'point' => $garageModelMock->coordinates,
+            'point' => $garageModelMock->latitude . ' ' . $garageModelMock->longitude,
             'country' => $garageModelMock->country->name,
             'owner_id' => $garageModelMock->owner->id,
             'garage_owner' => $garageModelMock->owner->name,
