@@ -100,21 +100,27 @@ class GarageSeeder extends BaseSeeder
         $countryMapper = new CountryMapper($this->pdo);
         $companyMapper = new CompanyMapper($this->pdo);
 
-        $data = [];
+        $stmt = $this->pdo->prepare("TRUNCATE TABLE $this->table");
+        $stmt->execute();
 
         foreach ($rawData as $row) {
-            $dataRow = $row;
+            $coordinates = $row['coordinates'];
+            $coordinates = "POINT($coordinates)";
 
-            $dataRow['currency_id'] = $currencyMapper->getByName($dataRow['currency_id'])->id;
-            $dataRow['country_id'] = $countryMapper->getByName($dataRow['country_id'])->id;
-            $dataRow['owner_id'] = $companyMapper->getByName($dataRow['owner_id'])->id;
+            $stmt = $this->pdo->prepare("INSERT INTO $this->table 
+                (name, hourly_price, currency_id, email, coordinates, country_id, owner_id) 
+                VALUES (:name, :hourly_price, :currency_id, :email, ST_GeomFromText(:coordinates), :country_id, :owner_id)
+            ");
+            $stmt->bindParam(':name', $row['name']);
+            $stmt->bindParam(':hourly_price', $row['hourly_price']);
+            $stmt->bindParam(':currency_id', $currencyMapper->getByName($row['currency_id'])->id);
+            $stmt->bindParam(':email', $row['email']);
+            $stmt->bindParam(':coordinates', $coordinates);
+            $stmt->bindParam(':country_id', $countryMapper->getByName($row['country_id'])->id);
+            $stmt->bindParam(':owner_id', $companyMapper->getByName($row['owner_id'])->id);
 
-            $data[] = $dataRow;
+            $stmt->execute();
         }
-
-        $this->seeder->table($this->table)->data($data, $this->columnConfig)->rowQuantity(count($data));
-
-        $this->seeder->refill();
     }
 }
 

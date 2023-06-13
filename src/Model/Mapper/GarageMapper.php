@@ -22,7 +22,7 @@ class GarageMapper extends BaseMapper
     /**
      * @var array
      */
-    public array $allowedFilters = ['country', 'owner', 'location'];
+    public array $allowedFilters = ['country', 'owner', 'location', 'latitude', 'longitude'];
 
     /**
      * @param PDO $db
@@ -74,15 +74,31 @@ class GarageMapper extends BaseMapper
                     $company = (new CompanyMapper($this->db))->getByName($val)?->id ?? null;
                     $where = "where owner_id = '$company'";
                     break;
-                case 'location':
-                    $where = "where coordinates = '$val'";
+                case 'latitude':
+                    $where = "where X(coordinates) = '$val'";
+                    break;
+                case 'longitude':
+                    $where = "where Y(coordinates) = '$val'";
                     break;
                 default:
                     $where = '';
             }
         }
 
-        $sql = "SELECT * FROM $this->table $where ORDER BY id ASC";
+        $sql = "SELECT 
+            id, 
+            name, 
+            hourly_price, 
+            email, 
+            ST_X(coordinates) as latitude, 
+            ST_Y(coordinates) as longitude,
+            currency_id,
+            country_id,
+            owner_id,
+            created_at,
+            updated_at    
+        FROM $this->table $where ORDER BY id ASC";
+
         $stmt = $this->db->query($sql);
 
         $results = [];

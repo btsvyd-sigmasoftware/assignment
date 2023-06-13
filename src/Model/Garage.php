@@ -30,9 +30,14 @@ class Garage
     public mixed $email;
 
     /**
-     * @var string
+     * @var mixed|null
      */
-    public mixed $coordinates;
+    public mixed $latitude;
+
+    /**
+     * @var mixed|null
+     */
+    public mixed $longitude;
 
     /**
      * @var Currency
@@ -69,7 +74,8 @@ class Garage
         $this->name = $data['name'] ?? null;
         $this->hourly_price = $data['hourly_price'] ?? null;
         $this->email = $data['email'] ?? null;
-        $this->coordinates = $data['coordinates'] ?? null;
+        $this->latitude = $data['latitude'] ?? null;
+        $this->longitude = $data['longitude'] ?? null;
         $this->currency = (new CurrencyMapper($db))->getById($data['currency_id']) ?? null;
         $this->country = (new CountryMapper($db))->getById($data['country_id']) ?? null;
         $this->owner = (new CompanyMapper($db))->getById($data['owner_id']) ?? null;

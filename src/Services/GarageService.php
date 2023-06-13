@@ -54,7 +54,7 @@ class GarageService
             $preparedGarage['hourly_price'] = $garage->hourly_price + 0;
             $preparedGarage['currency'] = $garage->currency->symbol;
             $preparedGarage['contact_email'] = $garage->email;
-            $preparedGarage['point'] = $garage->coordinates;
+            $preparedGarage['point'] = $garage->latitude . ' ' . $garage->longitude;
             $preparedGarage['country'] = $garage->country->name;
             $preparedGarage['owner_id'] = $garage->owner->id;
             $preparedGarage['garage_owner'] = $garage->owner->name;
